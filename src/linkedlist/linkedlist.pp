@@ -139,8 +139,6 @@ procedure LSTDeleteBegin(var list: TList);
 var
 	second: nodeptr;
 begin
-	if list.first = nil then exit;
-
 	second := list.first^.next;
 	dispose(list.first);
 	list.first := second;
