@@ -94,13 +94,27 @@ begin
 	newNode^.data := data;
 	{ If the list is empty }
 	if list.first = nil 
-		{ if it is empty, then the last element will also be the first }
+		{ if it is empty, then the last node will also be the first }
 		then list.first      := newNode
 		{ If the list is empty, it will result in an error } 
 		else list.last^.next := newNode;
 
 	list.last := newNode;
 	list.size := list.size + 1
+
+{ The alternative variant (but it needs in ternary operator) 
+	if list.first = nil then
+	begin
+		new(list.first);
+		list.last := list.first
+	end;
+	else
+		new(list.last^.next);
+		list.last := list.last^.next
+	end;
+	list.last^.next := nil;
+	list.last^.data := data;
+}
 end;
 
 procedure LSTSetAt(var list: TList; data: nodeval; 
@@ -109,8 +123,8 @@ var
 	current: nodeptr;
 begin
 	{* HOW DOES IT WORK
-	 * If the indexe zero, then return the first element (list.first). 
-	 * Otherwise, run the next element, decrement the index, 
+	 * If the indexe zero, then return the first node (list.first). 
+	 * Otherwise, run the next node, decrement the index, 
 	 * and recursively call our procedure until the index is 0
 	 *}
 	if index = 0 then
@@ -121,7 +135,7 @@ begin
 
 	current    := list.first;
 	list.first := list.first^.next;
-	LSTSetAt(list, data, index - 1, success);
+	LSTSetAt(list, data, index - 1);
 	list.first := current;
 end;
 
@@ -130,8 +144,8 @@ var
 	current: nodeptr;
 begin
 	{* HOW DOES IT WORK
-	 * If the indexe zero, then return the first element (list.first). 
-	 * Otherwise, run the next element, decrement the index, 
+	 * If the indexe zero, then return the first node (list.first). 
+	 * Otherwise, run the next node, decrement the index, 
 	 * and recursively call our procedure until the index is 0
 	 *}
 	if index = 0 then 
@@ -142,7 +156,7 @@ begin
 
 	current    := list.first;
 	list.first := list.first^.next;
-	LSTGetAt   := LSTGetAt(list, index - 1, success);
+	LSTGetAt   := LSTGetAt(list, index - 1);
 	list.first := current;
 end;
 
