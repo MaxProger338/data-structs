@@ -2,7 +2,7 @@ unit LinkedList;
 interface
 
 type
-	nodeval = Pointer;
+	nodeval = integer;
 	nodeptr =  ^TNode;
 	TNode = record
 		data: nodeval;
@@ -167,11 +167,11 @@ end;
 
 procedure LSTDeleteFront(var list: TList);
 var
-	second: nodeptr;
+	tmp: nodeptr;
 begin
-	second := list.first^.next;
-	dispose(list.first);
-	list.first := second;
+	tmp := list.first;
+	list.first = list.first^.next;
+	dispose(tmp);
 	
 	list.size  := list.size - 1
 end;
